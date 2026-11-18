@@ -2,6 +2,7 @@ FROM odoo:20.0
 
 USER root
 
+# Corregir la entrega de archivos almacenados en PostgreSQL
 RUN python3 - <<'PY'
 import odoo
 from pathlib import Path
@@ -14,10 +15,10 @@ new = "elif self.url and not self.db_datas:"
 
 if new not in s:
     if old not in s:
-        raise SystemExit("No se encontró la línea esperada en Odoo")
+        raise SystemExit("No se encontró la línea esperada")
     p.write_text(s.replace(old, new, 1))
 
-print("Corrección comprobada")
+print("Corrección aplicada correctamente")
 PY
 
 COPY addons/ventas_unicah /mnt/extra-addons/ventas_unicah
