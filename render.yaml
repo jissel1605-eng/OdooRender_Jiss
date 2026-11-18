@@ -1,0 +1,41 @@
+services:
+  - type: web
+    name: odoo-unicah
+    runtime: docker
+    plan: free
+    region: oregon
+    dockerfilePath: ./Dockerfile
+    dockerContext: .
+    healthCheckPath: /web/login
+    autoDeploy: true
+    envVars:
+      - key: PGHOST
+        fromDatabase:
+          name: odoo-unicah-db
+          property: host
+      - key: PGPORT
+        fromDatabase:
+          name: odoo-unicah-db
+          property: port
+      - key: PGUSER
+        fromDatabase:
+          name: odoo-unicah-db
+          property: user
+      - key: PGPASSWORD
+        fromDatabase:
+          name: odoo-unicah-db
+          property: password
+      - key: PGDATABASE
+        fromDatabase:
+          name: odoo-unicah-db
+          property: database
+      - key: ODOO_MASTER_PASSWORD
+        generateValue: true
+
+databases:
+  - name: odoo-unicah-db
+    databaseName: odoo
+    user: odoo
+    plan: free
+    region: oregon
+    postgresMajorVersion: "16"
